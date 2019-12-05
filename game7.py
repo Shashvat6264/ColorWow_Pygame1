@@ -43,19 +43,22 @@ class Player(pygame.sprite.Sprite):
     	pygame.sprite.Sprite.__init__(self)
         #self.image = pygame.Surface((50,50))
     	#self.image.fill(GREEN)
-        self.image = pygame.image.load(os.path.join(img_folder, "player1.jpg")).convert()    	
+        self.image = pygame.transform.scale(pygame.image.load(os.path.join(img_folder, "spiked ship 3. small.blue_.PNG")).convert(),(65,65))
+        self.image.set_colorkey(BLACK)
     	self.rect = self.image.get_rect()
     	self.rect.centerx = width/2
     	self.rect.bottom = height - 40
+    	self.radius = 40
+    	#pygame.draw.circle(self.image, RED, self.rect.center, self.radius)
     	self.speedx = 0
 
     def update(self):
        	self.speedx = 0
         keystate = pygame.key.get_pressed()
     	if keystate[pygame.K_LEFT]:
-    	    self.speedx = -5
+    	    self.speedx = -8
     	if keystate[pygame.K_RIGHT]:
-    	    self.speedx = 5    
+    	    self.speedx = 8   
     	self.rect.x += self.speedx
     	if self.rect.right > width:
     		self.rect.right = width
@@ -76,7 +79,7 @@ class Timer(pygame.sprite.Sprite):
 	self.rect = self.image.get_rect()
     	self.rect.centerx = 10
     	self.rect.bottom = height - 5
-    	self.speedx = 3
+    	self.speedx = 1
 
     def update(self):
         self.rect.x += self.speedx
@@ -113,13 +116,16 @@ class Mob(pygame.sprite.Sprite):
         #self.image.fill(RED)	
         self.image = random.choice(right_images)	
 	self.rect = self.image.get_rect()
+	self.image.set_colorkey(BLACK)
+    	self.radius = int(self.rect.width * 0.85 / 2)
+    	#pygame.draw.circle(self.image, RED, self.rect.center, self.radius)
         self.rect.x = random.randrange(0, width - self.rect.width)
         self.rect.y = random.randrange(-90,-50)
-        self.speedy = random.randrange(1,8)
-        #self.speedx = random.randrange(-3,3)
+        self.speedy = random.randrange(3,8)
+        self.speedx = random.randrange(-1,1)
 
     def update(self):
-    	#self.rect.x += self.speedx
+    	self.rect.x += self.speedx
         self.rect.y += self.speedy
     	if self.rect.top > height + 10 or self.rect.left < -25 or self.rect.right > width + 20:
     	    self.rect.x = random.randrange(0, width - self.rect.width)
@@ -133,13 +139,15 @@ class Mob1(pygame.sprite.Sprite):
         #self.image.fill(BLUE)
 	self.image = random.choice(wrong_images)        
 	self.rect = self.image.get_rect()
+	self.image.set_colorkey(BLACK)
+	self.radius = int(self.rect.width * 0.85 / 2)
         self.rect.x = random.randrange(0, width - self.rect.width)
         self.rect.y = random.randrange(-90,-50)
-        self.speedy = random.randrange(1,8)
-        #self.speedx = random.randrange(-3,3)
+        self.speedy = random.randrange(3,8)
+        self.speedx = random.randrange(-1,1)
 
     def update(self):
-    	#self.rect.x += self.speedx
+    	self.rect.x += self.speedx
         self.rect.y += self.speedy
     	if self.rect.top > height + 10 or self.rect.left < -25 or self.rect.right > width + 20:
     	    self.rect.x = random.randrange(0, width - self.rect.width)
@@ -153,13 +161,15 @@ class Mob2(pygame.sprite.Sprite):
 	self.image = random.choice(wrong_images)        
 	#self.image.fill(YELLOW)
         self.rect = self.image.get_rect()
+        self.image.set_colorkey(BLACK)
+        self.radius = int(self.rect.width * 0.85 / 2)
         self.rect.x = random.randrange(0, width - self.rect.width)
         self.rect.y = random.randrange(-90,-50)
-        self.speedy = random.randrange(1,8)
-        #self.speedx = random.randrange(-3,3)
+        self.speedy = random.randrange(3,8)
+        self.speedx = random.randrange(-1,1)
 
     def update(self):
-    	#self.rect.x += self.speedx
+    	self.rect.x += self.speedx
         self.rect.y += self.speedy
     	if self.rect.top > height + 10 or self.rect.left < -25 or self.rect.right > width + 20:
     	    self.rect.x = random.randrange(0, width - self.rect.width)
@@ -173,13 +183,15 @@ class Mob3(pygame.sprite.Sprite):
         #self.image.fill(ORANGE)
 	self.image = random.choice(wrong_images)        
 	self.rect = self.image.get_rect()
+	self.image.set_colorkey(BLACK)
+	self.radius = int(self.rect.width * 0.85 / 2)
         self.rect.x = random.randrange(0, width - self.rect.width)
         self.rect.y = random.randrange(-90,-50)
-        self.speedy = random.randrange(1,8)
-        #self.speedx = random.randrange(-3,3)
+        self.speedy = random.randrange(3,8)
+        self.speedx = random.randrange(-1,1)
 
     def update(self):
-    	#self.rect.x += self.speedx
+    	self.rect.x += self.speedx
         self.rect.y += self.speedy
     	if self.rect.top > height + 10 or self.rect.left < -25 or self.rect.right > width + 20:
     	    self.rect.x = random.randrange(0, width - self.rect.width)
@@ -195,7 +207,7 @@ class Bullet(pygame.sprite.Sprite):
 	self.rect = self.image.get_rect()
         self.rect.bottom = y
         self.rect.centerx = x
-        self.speedy = -40
+        self.speedy = -20
 
     def update(self):
         self.rect.y += self.speedy
@@ -216,8 +228,7 @@ def show_go_screen():
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    waiting = False  
-	
+                    waiting = False
 wrong_images = []
 
 wrong_list = [  
@@ -283,7 +294,7 @@ while running:
             mobs.add(n)
             mobs.add(o)
             mobs.add(p)
-            enemy.add(m)
+            enemy.add(m)  
         score = 0    
 
     # keep loop running at the right speed
@@ -320,7 +331,7 @@ while running:
         game_over = True
 
     # check to see if a mob hit the player
-    hits = pygame.sprite.spritecollide(player, mobs, False)
+    hits = pygame.sprite.spritecollide(player, mobs, False, pygame.sprite.collide_circle)
     if hits:
         game_over = True        
 
