@@ -77,20 +77,19 @@ class Timer(pygame.sprite.Sprite):
     	self.rect.centerx = 10
     	self.rect.bottom = height - 5
     	self.speedx = 3
+    	self.up = 0 
 
     def update(self):
         self.rect.x += self.speedx
     	if self.rect.right > width:
-                self.kill()
                 show_go_screen()
+                self.up = 1
                 all_sprites = pygame.sprite.Group()
                 mobs = pygame.sprite.Group()
                 enemy = pygame.sprite.Group()
                 bullets = pygame.sprite.Group()
                 player = Player()
-                all_sprites.add(player)	
-                time = Timer()
-                all_sprites.add(time)
+                all_sprites.add(player)
                 for i in range(1):
                     m = Mob()
                     n = Mob1()      
@@ -299,6 +298,10 @@ while running:
 
     # Update
     all_sprites.update()
+    if time.up == 1:
+        time.kill()
+        time=Timer()
+        all_sprites.add(time)
    
     # check if bullet hits mob
     hits = pygame.sprite.groupcollide(bullets , enemy ,True ,True)
